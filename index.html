@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voutch | The Easy Way to Buy & Sell Event Tickets</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. Global Styles & Variables --- */
+        :root {
+            --color-background: #0D0C1D; /* Deep navy blue */
+            --color-surface: #17162B;   /* Slightly lighter surface color */
+            --color-primary-text: #F0F2F5;
+            --color-secondary-text: #a8a7b1;
+            --font-primary: 'Poppins', sans-serif;
+            --gradient-primary: linear-gradient(90deg, #8A2387, #E94057, #F27121);
+            --gradient-secondary: linear-gradient(90deg, #4A00E0, #8E2DE2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-background);
+            color: var(--color-primary-text);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background gradient effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 15% 25%, rgba(138, 35, 135, 0.15), transparent 30%),
+                        radial-gradient(circle at 85% 75%, rgba(74, 0, 224, 0.15), transparent 40%);
+            z-index: -1;
+            animation: pulse-glow 15s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { opacity: 0.5; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- 2. Typography & Links --- */
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            line-height: 1.3;
+            text-align: center;
+        }
+        
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        p {
+            color: var(--color-secondary-text);
+            line-height: 1.7;
+        }
+        
+        a {
+            color: var(--color-secondary-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-primary-text);
+        }
+
+        /* --- 3. Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(233, 64, 87, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 30px rgba(233, 64, 87, 0.5);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-primary-text);
+            border: 2px solid var(--color-surface);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-surface);
+            color: var(--color-primary-text);
+            transform: translateY(-3px);
+        }
+
+        /* --- 4. Header --- */
+        .header {
+            padding: 2rem 0;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: center; /* Centered logo for this simple MVP */
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.75rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- 5. Hero Section --- */
+        .hero {
+            text-align: center;
+            padding: 6rem 0;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            max-width: 800px;
+        }
+
+        .hero .description {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 1.5rem auto 2.5rem;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* --- 6. How It Works Section --- */
+        .how-it-works {
+            padding: 6rem 0;
+        }
+        
+        .how-it-works h2 {
+            margin-bottom: 4rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .step-card {
+            background: var(--color-surface);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .step-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--color-primary-text);
+        }
+        
+        .step-card p {
+            font-size: 0.95rem;
+        }
+
+        /* --- 7. Final CTA Section --- */
+        .final-cta {
+            text-align: center;
+            padding: 6rem 0;
+            background: var(--color-surface);
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+        
+        .final-cta h2 {
+             margin-bottom: 1rem;
+        }
+        
+        .final-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .final-cta .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* --- 8. Footer --- */
+        .footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--color-surface);
+        }
+        
+        .footer p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a {
+            margin: 0 1rem;
+        }
+        
+        /* --- 9. Waitlist Modal --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 11, 30, 0.7);
+            backdrop-filter: blur(10px);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--color-surface);
+            padding: 3rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--color-secondary-text);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--color-primary-text);
+            transform: rotate(90deg);
+        }
+
+        .modal-step {
+            display: none; /* Hide all steps initially */
+        }
+        
+        .modal-step.active {
+            display: block;
+        }
+
+        .modal-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--color-primary-text);
+        }
+
+        .modal-content p {
+            margin-bottom: 2rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        /* Form Styling */
+        .waitlist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-background);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--color-primary-text);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: var(--color-secondary-text);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8E2DE2;
+            box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.3);
+        }
+        
+        .waitlist-form .btn-primary {
+            margin-top: 1rem;
+        }
+        
+        /* Confirmation Step Styling */
+        .confirmation-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* --- 10. Responsive Design --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2rem; }
+            .hero { padding: 4rem 0; }
+            .hero .description { font-size: 1rem; }
+            .btn { padding: 0.8rem 1.8rem; font-size: 0.9rem; }
+            .final-cta { margin: 2rem 1rem; }
+            .modal-content { padding: 2rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero .cta-buttons, .final-cta .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">VOUTCH</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1>The <span class="gradient-text">Easy Way</span> to Buy & Sell Event Tickets</h1>
+                <p class="description">
+                    Stop scrolling through messy group chats and endless DMs. Voutch is the simple, secure marketplace for students at your school to find and sell tickets for the best campus events.
+                </p>
+                <div class="cta-buttons">
+                    <a class="btn btn-primary cta-open-modal">Buy a Ticket</a>
+                    <a class="btn btn-secondary cta-open-modal">Sell a Ticket</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="how-it-works">
+            <div class="container">
+                <h2>Your Ticket, Your Way. <br> In 3 Simple Steps.</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <h3>Find or List Tickets</h3>
+                        <p>Effortlessly discover tickets for campus events or post your extras in seconds. No more hassle.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="icon"><i class="fa-solid fa-user-group"></i></div>
+                        <h3>Connect with Peers</h3>
+                        <p>See who’s buying or selling right on your campus. Voutch is built on a network of students you can trust.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3>Pay or Get Paid Securely</h3>
+                        <p>Transact safely and instantly through the platform. Get your ticket or your cash, guaranteed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="final-cta">
+            <div class="container">
+                <h2>Ready to Ditch the <span class="gradient-text">Group Chat?</span></h2>
+                <p>Be the first to know when Voutch launches at your school. Join the waitlist for exclusive early access.</p>
+                <div class="cta-buttons">
+                    <a class="btn btn-primary cta-open-modal">Join the Waitlist</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Voutch. For students, by students.</p>
+            <div class="footer-links">
+                <a href="#">Contact Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Waitlist Modal -->
+    <div id="waitlist-modal" class="modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-times modal-close"></i>
+
+            <!-- Step 1: Ask for Interest -->
+            <div id="modal-step-1" class="modal-step active">
+                <h3>Awesome! Are you interested?</h3>
+                <p>Let us know if you'd use Voutch to buy or sell tickets more easily on campus.</p>
+                <div class="modal-buttons">
+                    <a id="modal-yes-btn" class="btn btn-primary">Yes, I'm Interested!</a>
+                    <a class="btn btn-secondary modal-close">Not right now</a>
+                </div>
+            </div>
+
+            <!-- Step 2: Waitlist Form -->
+            <div id="modal-step-2" class="modal-step">
+                <h3>Great! Voutch is Launching Soon.</h3>
+                <p>Join the official waitlist to get exclusive early access and be the first to know when we're live.</p>
+                <form id="waitlist-form" class="waitlist-form" action="#" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Name (Optional)">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="school" placeholder="What school do you attend? (Optional)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Join the Waitlist</button>
+                </form>
+            </div>
+
+            <!-- Step 3: Confirmation Message -->
+            <div id="modal-step-3" class="modal-step">
+                <div class="confirmation-icon"><i class="fa-solid fa-party-horn"></i></div>
+                <h3>You're on the list!</h3>
+                <p>Thanks for signing up. We'll be in touch soon with updates. Keep an eye on your inbox!</p>
+                <a class="btn btn-primary modal-close">Got it!</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Modal Elements ---
+            const modal = document.getElementById('waitlist-modal');
+            const openModalButtons = document.querySelectorAll('.cta-open-modal');
+            const closeModalButtons = document.querySelectorAll('.modal-close');
+            
+            // --- Modal Step Elements ---
+            const modalStep1 = document.getElementById('modal-step-1');
+            const modalStep2 = document.getElementById('modal-step-2');
+            const modalStep3 = document.getElementById('modal-step-3');
+            
+            // --- Modal Action Buttons ---
+            const yesButton = document.getElementById('modal-yes-btn');
+            const waitlistForm = document.getElementById('waitlist-form');
+
+            const openModal = () => {
+                // Reset to the first step every time modal is opened
+                modalStep1.classList.add('active');
+                modalStep2.classList.remove('active');
+                modalStep3.classList.remove('active');
+                modal.classList.add('active');
+            };
+
+            const closeModal = () => {
+                modal.classList.remove('active');
+            };
+
+            // Event Listeners to open the modal
+            openModalButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+
+            // Event Listeners to close the modal
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', closeModal);
+            });
+            
+            // Close modal when clicking on the background overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // --- Modal Flow Logic ---
+
+            // "Yes, I'm Interested" button click
+            yesButton.addEventListener('click', () => {
+                modalStep1.classList.remove('active');
+                modalStep2.classList.add('active');
+            });
+
+            // Form submission
+            waitlistForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevents actual form submission for this demo
+
+                // You would typically handle form data submission here
+                // For example:
+                // const formData = new FormData(waitlistForm);
+                // const data = Object.fromEntries(formData.entries());
+                // console.log('Submitting data:', data);
+                // fetch('YOUR_API_ENDPOINT', { method: 'POST', body: JSON.stringify(data) });
+
+                modalStep2.classList.remove('active');
+                modalStep3.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
